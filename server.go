@@ -10,11 +10,16 @@ import (
 )
 
 type Hand struct {
-    Cards [2]string `json:"cards"`
+    Cards [2]string `form:"cards" json:"cards"`
 }
 
-func rankHand(c echo.Context) error {
-    return c.JSON(http.StatusOK, &Hand{Cards: [2]string{"2h", "4s"}})
+func rankHand(c echo.Context) (err error) {
+    h := new(Hand)
+    if err := c.Bind(h); err != nil {
+        return err
+    }
+    cards := h.Cards
+    return c.JSON(http.StatusOK, cards)
 }
 
 func load_store() map[string]int {
@@ -51,6 +56,8 @@ func main() {
     e := echo.New()
 
     store := load_store()
+
+    fmt.Print(store)
 
     e.GET("/", func(c echo.Context) error{
         return c.String(http.StatusOK, "Poker Evaluator API")
