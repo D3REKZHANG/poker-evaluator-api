@@ -8,6 +8,7 @@ import (
     "sort"
     "strconv"
     "github.com/labstack/echo/v4"
+    "./helpers"
 )
 
 type Hand struct {
@@ -42,7 +43,7 @@ func rankHand(hand [5]string) int {
         key += "f"
     }
 
-    sort.Strings(key)
+    helpers.SortString(key)
 
     return store[key]
 }
