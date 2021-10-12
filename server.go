@@ -8,7 +8,7 @@ import (
     "sort"
     "strconv"
     "github.com/labstack/echo/v4"
-    "./helpers"
+    "poker-evaluator-api/helpers"
 )
 
 type Hand struct {
