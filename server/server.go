@@ -17,6 +17,7 @@ func main() {
         return c.String(http.StatusOK, "Poker Evaluator API")
     })
     e.POST("/rankHand", views.RankHand)
+    e.POST("/rankTable", views.RankTable)
 
     e.Logger.Fatal(e.Start(":1323"))
 
