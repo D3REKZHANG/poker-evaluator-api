@@ -1,12 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
 char N[15] = {'_', 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
 ofstream file;
 int value;
+std::map<int, std::string> thresholds;
 
 string key(int a, int b, int c, int d, int e){
     char cards[5] = {N[a], N[b], N[c], N[d], N[e]};
@@ -28,6 +30,7 @@ void highCard(){
                     for(int e=d+1;e<a;e++)
                         if((c != b+1) || (d != c+1) || (e != d+1) || (a != e+1))
                             file << key(a,b,c,d,e) << ' ' << value++ << ' ';
+    thresholds[value] = "High Card";
 }
 
 void onePair(){
@@ -44,6 +47,7 @@ void onePair(){
             }
         }
     }
+    thresholds[value] = "High Card";
 }
 
 void twoPair(){
@@ -58,6 +62,7 @@ void twoPair(){
             }
         }
     }
+    thresholds[value] = "Two Pair";
 }
 
 void threes(){
@@ -72,17 +77,20 @@ void threes(){
             }
         }
     }
+    thresholds[value] = "Three of Kind";
 }
 
 void straight(){
     for(int i=1;i<=10;i++){
         file << key(i, i+1, i+2, i+3, i+4) << ' ' << value++ << ' ';
     }
+    thresholds[value] = "Straight";
 }
 
 void flush(){
     // Flush
     // No duplicates, no straights, sorted from 12346 to 8TJQK
+    int start = value;
     for(int a=6;a<=14;a++)
         for(int b=2;b<a;b++)
             for(int c=b+1;c<a;c++)
@@ -90,6 +98,7 @@ void flush(){
                     for(int e=d+1;e<a;e++)
                         if((c != b+1) || (d != c+1) || (e != d+1) || (a != e+1))
                             file << key(a,b,c,d,e) << "f " << value++ << ' ';
+    thresholds[value] = "Flush";
 }
 
 void fullHouse(){
@@ -99,6 +108,7 @@ void fullHouse(){
                 file << key(b, b, a, a, a) << ' ' << value++ << ' ';
         }
     }
+    thresholds[value] = "Full House";
 }
 
 void fours(){
@@ -110,12 +120,14 @@ void fours(){
                 file << key(f, f, f, f, k) << ' ' << value++ << ' ';
         }
     }
+    thresholds[value] = "Four of a Kind";
 }
 
 void straightFlush(){
     for(int i=1;i<=10;i++){
         file << key(i, i+1, i+2, i+3, i+4) << "f " << value++ << ' ';
     }
+    thresholds[value] = "Straight Flush";
 }
 
 int main(){
@@ -132,6 +144,12 @@ int main(){
     fullHouse();
     fours();
     straightFlush();
+
+    file << std::endl;
+
+    for(auto & p : thresholds) {
+      file << p.first << " " << p.second << std::endl;      
+    }
 
     file.close();
 }
