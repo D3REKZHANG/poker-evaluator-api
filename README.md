@@ -2,7 +2,7 @@
 
 Blazing fast poker hand evaluator API written in Go and C++.
 
-My take on a hashtable-based poker hand evaluation algorithm.
+My take on a lookup table poker hand evaluation algorithm.
 
 Can process 100,000 evaluations for 5-card poker hands in **0.019s**
 
@@ -37,5 +37,6 @@ Thus we have our total:
 ![equation](https://latex.codecogs.com/png.latex?6175&plus;1&plus;1287&plus;1%3D7464)
 
 Turns out I ended up recalling something from AP Stats in high school lol. Thanks Mr. Segev!
+
 
 
